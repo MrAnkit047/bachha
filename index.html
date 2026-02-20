@@ -18,7 +18,6 @@ body{
   overflow-x:hidden;
 }
 
-/* Sections */
 .section{
   min-height:100vh;
   display:none;
@@ -33,7 +32,6 @@ body{
   to{opacity:1;transform:translateY(0);}
 }
 
-/* Headings */
 h1{
   font-size:2.7em;
   background:linear-gradient(to right,#d4af37,#f9e79f);
@@ -42,7 +40,6 @@ h1{
   margin-bottom:20px;
 }
 
-/* Buttons */
 button{
   padding:14px 30px;
   border:none;
@@ -59,7 +56,6 @@ button:hover{
   transform:scale(1.1);
 }
 
-/* Glowing reply */
 .glow{
   margin-top:20px;
   font-weight:600;
@@ -70,7 +66,6 @@ button:hover{
   to{text-shadow:0 0 20px #f9e79f;}
 }
 
-/* Gallery */
 .gallery{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
@@ -87,7 +82,6 @@ button:hover{
   transform:scale(1.05);
 }
 
-/* Floating hearts */
 .heart{
   position:fixed;
   bottom:-10px;
@@ -100,7 +94,6 @@ button:hover{
   100%{transform:translateY(-100vh);opacity:0;}
 }
 
-/* Ring animation */
 .ring{
   font-size:80px;
   animation:ringPop 1s ease forwards;
@@ -109,6 +102,44 @@ button:hover{
   0%{transform:scale(0);}
   70%{transform:scale(1.2);}
   100%{transform:scale(1);}
+}
+
+/* Timeline */
+.timeline{
+  max-width:600px;
+  margin:20px auto;
+  text-align:left;
+}
+.timeline-item{
+  padding:15px 20px;
+  margin:10px 0;
+  border-left:3px solid #d4af37;
+  background:rgba(212,175,55,0.1);
+  border-radius:0 10px 10px 0;
+}
+.timeline-date{
+  font-size:0.85em;
+  color:#f9e79f;
+  margin-bottom:5px;
+}
+.timeline-text{
+  font-size:1.1em;
+}
+.start-date{
+  font-size:1.3em;
+  color:#f9e79f;
+  margin-bottom:20px;
+}
+.time-counter{
+  font-size:1.8em;
+  color:#d4af37;
+  margin:20px 0;
+  text-shadow:0 0 20px rgba(212,175,55,0.5);
+  line-height:1.6;
+}
+.days-label{
+  font-size:1.2em;
+  color:#f9e79f;
 }
 </style>
 </head>
@@ -121,6 +152,27 @@ button:hover{
   <p>Enter Our Special Date</p>
   <input type="password" id="password">
   <button onclick="unlock()">Unlock ❤️</button>
+</div>
+
+<!-- TIMELINE -->
+<div class="section" id="timeline">
+  <h1>Our Journey Together 💕</h1>
+  <div class="start-date">January 6, 2026 at 12:35 AM ❤️</div>
+  <div class="time-counter" id="timeCounter"></div>
+  <div class="days-label">Time Since We Started</div>
+  
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">January 6, 2026 - 12:35 AM</div>
+      <div class="timeline-text">The day everything changed ❤️</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">February 14, 2026</div>
+      <div class="timeline-text">First Valentine's Day together 💖</div>
+    </div>
+  </div>
+  
+  <button onclick="nextSection('intro')">Continue ❤️</button>
 </div>
 
 <!-- INTRO -->
@@ -159,11 +211,12 @@ button:hover{
 <div class="section" id="gallery">
   <h1>Our Memories 📸</h1>
   <div class="gallery">
-    <img src="./photo1.jpeg">
-    <img src="./PHOTO2.jpeg">
-    <img src="./PHOTO3.jpeg">
-    <img src="./PHOTO4.jpeg">
+    <img src="./photo1.jpeg" alt="Memory 1">
+    <img src="./PHOTO2.jpeg" alt="Memory 2">
+    <img src="./PHOTO3.jpeg" alt="Memory 3">
+    <img src="./PHOTO4.jpeg" alt="Memory 4">
   </div>
+  
   <button onclick="nextSection('final')">Final Surprise 💍</button>
 </div>
 
@@ -176,17 +229,39 @@ button:hover{
 </div>
 
 <audio id="bgMusic" loop>
-<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+<source src="John Legend - All of Me (Lyrics).mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
+// Start date: January 6, 2026, 12:35 AM
+const startDate = new Date("January 6, 2026 00:35:00");
+
+function updateDaysCounter() {
+  const now = new Date();
+  const diffTime = now - startDate;
+  
+  const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diffTime % (1000 * 60)) / 1000);
+  
+  document.getElementById("timeCounter").innerHTML = days + " days<br>" + hours + " hours<br>" + minutes + " minutes<br>" + seconds + " seconds";
+}
+
 /* Unlock */
 function unlock(){
   if(document.getElementById("password").value==="06012026"){
-    showSection("intro");
-    typeWriter();
-    document.getElementById("bgMusic").play();
+    updateDaysCounter();
+    setInterval(updateDaysCounter, 1000);
+    showSection("timeline");
+    
+    // Play music automatically
+    const music = document.getElementById("bgMusic");
+    music.volume = 0.7;
+    music.play().catch(function(error) {
+      console.log("Auto-play was prevented: ", error);
+    });
   } else alert("Wrong password ❤️");
 }
 
@@ -243,14 +318,12 @@ function answerYes(){
   },1500);
 }
 
-/* Moving NO */
 document.getElementById("movingNo").onmouseover=function(){
   this.style.position="absolute";
   this.style.left=Math.random()*(window.innerWidth-120)+"px";
   this.style.top=Math.random()*(window.innerHeight-60)+"px";
 };
 
-/* Final */
 function finalYes(){
   document.getElementById("ringArea").innerHTML="<div class='ring'>💍</div>";
   heartExplosion();
@@ -265,7 +338,6 @@ document.getElementById("finalNo").onmouseover=function(){
   this.style.top=Math.random()*(window.innerHeight-60)+"px";
 };
 
-/* Heart Explosion */
 function heartExplosion(){
   for(let i=0;i<25;i++){
     const heart=document.createElement("div");
@@ -278,7 +350,6 @@ function heartExplosion(){
   }
 }
 
-/* Continuous floating hearts */
 setInterval(()=>{
   const heart=document.createElement("div");
   heart.className="heart";
