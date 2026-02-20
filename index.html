@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Komal ❤️ My Forever</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,#111,#000);
+  color:#d4af37;
+  text-align:center;
+  overflow-x:hidden;
+}
+
+/* Sections */
+.section{
+  min-height:100vh;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:30px;
+  animation:fade 1s ease;
+}
+@keyframes fade{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* Headings */
+h1{
+  font-size:2.7em;
+  background:linear-gradient(to right,#d4af37,#f9e79f);
+  background-clip: text; 
+  color:transparent;
+  margin-bottom:20px;
+}
+
+/* Buttons */
+button{
+  padding:14px 30px;
+  border:none;
+  border-radius:30px;
+  background:#d4af37;
+  color:black;
+  font-weight:600;
+  cursor:pointer;
+  margin:10px;
+  transition:0.3s;
+}
+button:hover{
+  background:#f9e79f;
+  transform:scale(1.1);
+}
+
+/* Glowing reply */
+.glow{
+  margin-top:20px;
+  font-weight:600;
+  animation:goldGlow 1.5s ease-in-out infinite alternate;
+}
+@keyframes goldGlow{
+  from{text-shadow:0 0 5px #d4af37;}
+  to{text-shadow:0 0 20px #f9e79f;}
+}
+
+/* Gallery */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:15px;
+  max-width:800px;
+}
+.gallery img{
+  width:100%;
+  border-radius:15px;
+  box-shadow:0 0 20px #d4af37;
+  transition:0.4s;
+}
+.gallery img:hover{
+  transform:scale(1.05);
+}
+
+/* Floating hearts */
+.heart{
+  position:fixed;
+  bottom:-10px;
+  font-size:20px;
+  animation:float 6s linear infinite;
+  opacity:0.8;
+}
+@keyframes float{
+  0%{transform:translateY(0);opacity:1;}
+  100%{transform:translateY(-100vh);opacity:0;}
+}
+
+/* Ring animation */
+.ring{
+  font-size:80px;
+  animation:ringPop 1s ease forwards;
+}
+@keyframes ringPop{
+  0%{transform:scale(0);}
+  70%{transform:scale(1.2);}
+  100%{transform:scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="section" id="login" style="display:flex;">
+  <h1>Private Access 🔒</h1>
+  <p>Enter Our Special Date</p>
+  <input type="password" id="password">
+  <button onclick="unlock()">Unlock ❤️</button>
+</div>
+
+<!-- INTRO -->
+<div class="section" id="intro">
+  <h1>Komal ❤️</h1>
+  <p id="loveText"></p>
+  <button onclick="nextSection('reasons')">Why I Love You 💖</button>
+</div>
+
+<!-- REASONS -->
+<div class="section" id="reasons">
+  <h1>Reasons I Love You 🌹</h1>
+  <p>
+    You are my peace 🕊️<br><br>
+    You understand my silence 💭<br><br>
+    You are my happiness ☀️<br><br>
+    You are my forever person 💞
+  </p>
+  <button onclick="nextSection('questions')">Romantic Questions 💌</button>
+</div>
+
+<!-- QUESTIONS -->
+<div class="section" id="questions">
+  <h1>Answer Honestly 😌❤️</h1>
+  <p id="questionText"></p>
+
+  <div>
+    <button onclick="answerYes()">Yes 💖</button>
+    <button id="movingNo">No 😜</button>
+  </div>
+
+  <p id="responseText" class="glow"></p>
+</div>
+
+<!-- GALLERY -->
+<div class="section" id="gallery">
+  <h1>Our Memories 📸</h1>
+  <div class="gallery">
+    <img src="./photo1.jpeg">
+    <img src="./PHOTO2.jpeg">
+    <img src="./PHOTO3.jpeg">
+    <img src="./PHOTO4.jpeg">
+  </div>
+  <button onclick="nextSection('final')">Final Surprise 💍</button>
+</div>
+
+<!-- FINAL -->
+<div class="section" id="final">
+  <h1>Will You Stay With Me Forever? 💍</h1>
+  <div id="ringArea"></div>
+  <button onclick="finalYes()">Yes 💖</button>
+  <button id="finalNo">No 😜</button>
+</div>
+
+<audio id="bgMusic" loop>
+<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* Unlock */
+function unlock(){
+  if(document.getElementById("password").value==="06012026"){
+    showSection("intro");
+    typeWriter();
+    document.getElementById("bgMusic").play();
+  } else alert("Wrong password ❤️");
+}
+
+function showSection(id){
+  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+  document.getElementById(id).style.display="flex";
+}
+function nextSection(id){showSection(id);}
+
+/* Typing */
+const text="Since the day you entered my life, everything became golden ❤️";
+let i=0;
+function typeWriter(){
+  if(i<text.length){
+    document.getElementById("loveText").innerHTML+=text.charAt(i);
+    i++;
+    setTimeout(typeWriter,40);
+  }
+}
+
+/* Questions */
+const questions=[
+"Do you feel safe with me? 💞",
+"Do you imagine our future together? 🏡",
+"Will you hold my hand in tough times? 🤝",
+"Do you smile when you think about me? 😊",
+"Are you ready for forever with me? 💍"
+];
+
+const replies=[
+"You will always be protected in my arms ❤️🛡️",
+"Our future already feels like a dream come true ✨",
+"I will never let your hand go 🤍",
+"Your smile is my favorite blessing 🌸",
+"Forever with you is all I ever want 💍✨"
+];
+
+let qIndex=0;
+
+function showQuestion(){
+  document.getElementById("questionText").innerHTML=questions[qIndex];
+  document.getElementById("responseText").innerHTML="";
+}
+showQuestion();
+
+function answerYes(){
+  document.getElementById("responseText").innerHTML=replies[qIndex];
+  heartExplosion();
+  setTimeout(()=>{
+    qIndex++;
+    if(qIndex<questions.length){
+      showQuestion();
+    } else nextSection('gallery');
+  },1500);
+}
+
+/* Moving NO */
+document.getElementById("movingNo").onmouseover=function(){
+  this.style.position="absolute";
+  this.style.left=Math.random()*(window.innerWidth-120)+"px";
+  this.style.top=Math.random()*(window.innerHeight-60)+"px";
+};
+
+/* Final */
+function finalYes(){
+  document.getElementById("ringArea").innerHTML="<div class='ring'>💍</div>";
+  heartExplosion();
+  setTimeout(()=>{
+    alert("CONGRULATIONS!! YOU'RE MINE FOREVER ❤️");
+  },800);
+}
+
+document.getElementById("finalNo").onmouseover=function(){
+  this.style.position="absolute";
+  this.style.left=Math.random()*(window.innerWidth-120)+"px";
+  this.style.top=Math.random()*(window.innerHeight-60)+"px";
+};
+
+/* Heart Explosion */
+function heartExplosion(){
+  for(let i=0;i<25;i++){
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="💖";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(20+Math.random()*20)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),4000);
+  }
+}
+
+/* Continuous floating hearts */
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="❤️";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(15+Math.random()*15)+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+},1200);
+
+</script>
+
+</body>
+</html>
